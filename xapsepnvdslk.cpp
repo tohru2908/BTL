@@ -15,6 +15,8 @@ struct ItemsPosition{
 	ItemsPosition();
 	Node *createNode(char fullName[]);
 	void addNewStaff(char Name[], char fullName[]);
+	void searchStaffByName(int Name);
+	void searchStaffByPos(int pos);
 	void removeStaffByPos(int pos);
 	void removeStaffByName(char Name[]);
 	void getName(char name[], char fullName[]);
@@ -53,8 +55,31 @@ void ItemsPosition::getName(char name[], char fullName[]){
 		}
 	}
 }
-
-void ItemsPosition::softList(char name[], char fullName[]){
+void ItemsPosition::searchStaffByPos(int pos){
+	if(pos>index){
+	cout<<"khong co nhan vien nao o vi tri ban can tim!";
+	}else{
+		Node*p;
+		p=head;
+		for(int i=0;i<=index;i++){
+		if(i==pos){
+			return p;
+		}else {
+			p=p->next;
+		}
+	}
+	}
+}
+void ItemsPosition::removeStaffByPos(int pos){
+	Node*p=searchStaffByPos(pos);
+	p->prev->next = p->next;
+    p->next->prev = p->prev;
+    p->prev = NULL; 
+    p->next = NULL;
+    delete p;
+	
+}
+void ItemsPosition::removeStaffByName(char Name[]){
 	
 }
 int main(){
