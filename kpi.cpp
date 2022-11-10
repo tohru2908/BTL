@@ -87,34 +87,6 @@ void list::insert(int x, string y, int pos){
 	size++;
 }
 
-/*void list::removefirst(){
-	head=head->next;
-	size--;
-}
-
-void list::removelast(){
-	for(node *i=head; i!=NULL; i=i->next){
-		if (i->next==tail) {tail=i; tail->next=NULL; break;}
-	size--;
-	}
-}*/
-
-/*void list::remove(int pos){
-	if(head==NULL) cout<<"List is empty";
-	
-	else{
-		int dem;
-		for (node *i=head; i!=NULL&&dem<pos; i=i->next){
-			dem++;
-			if (dem==pos){
-				 i->next->pre=i->pre;
-				 i->pre->next=i->next;
-				 delete i;
-			}
-		}
-	}
-	size--;
-}*/
 
 void list::printsl(int x){
 	int dem=0;
