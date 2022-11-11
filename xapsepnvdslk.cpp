@@ -6,7 +6,6 @@ struct Node{
 	char data[];
 	Node *next;
 	Node *prev;
-	
 };
 struct ItemsPosition{
 	int index=0;
@@ -35,19 +34,20 @@ Node* ItemsPosition::createNode(char fullName[]){
 	return p;
 }
 void ItemsPosition::addNewStaff(char Name[], char fullName[]){
-	Node *p= new Node;
+	Node *p=new Node;
+	p=createNode(fullName);
 	tail->next=p;
 	p->prev=tail;
 	index++;
 	if(index>=2){
 		for(int i=0;i<index;i++){
-			if(strcmp(p,p->prev)>0){
+			if(strcmp(p->data,p->prev->data)>0){
 				if(i=index-1){
 					p->next->prev=p->prev;
 					p->prev->next=p->next;
 					p->next=p->prev;
 					head=p;
-				}elseif(i=0){
+				}else if(i=0){
 					p->prev=p->prev->prev;
 					p->prev->next=p;
 					tail->prev=p;
@@ -60,7 +60,7 @@ void ItemsPosition::addNewStaff(char Name[], char fullName[]){
 					p->prev->next=p;
 					p->next->prev=p;
 				};
-			}elseif(i=0){
+			}else if(i=0){
 				tail=p;
 				break;
 			}else{
@@ -81,11 +81,11 @@ void ItemsPosition::searchStaffByPos(int pos){
 	if(pos>index){
 	cout<<"khong co nhan vien nao o vi tri ban can tim!";
 	}else{
-		Node*p;
+		Node*p=new Node;
 		p=head;
 		for(int i=0;i<=index;i++){
 		if(i==pos){
-			return p;
+			cout<<p;
 		}else {
 			p=p->next;
 		}
@@ -93,23 +93,31 @@ void ItemsPosition::searchStaffByPos(int pos){
 	}
 }
 void ItemsPosition::removeStaffByPos(int pos){
-	Node*p=searchStaffByPos(pos);
-	p->prev->next = p->next;
-    p->next->prev = p->prev;
-    p->prev = NULL; 
-    p->next = NULL;
-    delete p;
-	
-}
-void ItemsPosition::removeStaffByName(char Name[]){
+//	Node*p=searchStaffByPos(pos);
+	if(pos>index){
+	cout<<"khong co nhan vien nao o vi tri ban can xoa!";
+	}else{
+		Node*p=new Node;
+		p=head;
+		for(int i=0;i<=index;i++){
+		if(i==pos){
+			p->prev->next = p->next;
+    		p->next->prev = p->prev;
+    		p->prev = NULL; 
+    		p->next = NULL;
+    		delete p;
+		}else {
+			p=p->next;
+		}
+	}
+	}
+//	  p->prev->next = p->next;
+//    p->next->prev = p->prev;
+//    p->prev = NULL; 
+//    p->next = NULL;
+//    delete p;
 	
 }
 int main(){
-	ItemsPosition a;
-	char fullName[]="";
-	char name[]= "";
-	cout<<"nhap ho ten nhan vien: ";
-	cin>>fullName;
-	a.addNewStaff(name, fullName);
-	
+
 }
