@@ -39,17 +39,6 @@ void ItemsPosition::addNewStaff(char Name[], char fullName[]){
 	tail->next=p;
 	p->prev=tail;
 	index++;
-//	for(int i=0;i<index;i++){
-//		for(int j=i+1;j<index;j++){
-//			if(strcmp(p,p->next)>0&&p->next!=NULL){
-//				p->next=p->pre;
-//				p=p->next->next;
-//			}
-//			else{
-//				p=p->next;
-//			}
-//		}
-//	}
 	if(index>=2){
 		for(int i=0;i<index;i++){
 			if(strcmp(p,p->prev)>0){
