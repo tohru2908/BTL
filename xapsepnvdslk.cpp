@@ -24,6 +24,8 @@ struct ItemsPosition{
 };
 ItemsPosition::ItemsPosition(){
 	head=tail=NULL;
+	head->prev=NULL;
+	tail->next=NULL;
 }
 Node* ItemsPosition::createNode(char fullName[]){
 	Node *p= new Node;
@@ -34,16 +36,47 @@ Node* ItemsPosition::createNode(char fullName[]){
 }
 void ItemsPosition::addNewStaff(char Name[], char fullName[]){
 	Node *p= new Node;
+	tail->next=p;
+	p->prev=tail;
 	index++;
-	for(int i=0;i<index;i++){
-		for(int j=i+1;j<index;j++){
-			if(strcmp(p,p->next)>0&&p->next!=NULL){
-				p->next=p->pre;
-				p=p->next->next;
-			}
-			else{
-				p=p->next;
-			}
+//	for(int i=0;i<index;i++){
+//		for(int j=i+1;j<index;j++){
+//			if(strcmp(p,p->next)>0&&p->next!=NULL){
+//				p->next=p->pre;
+//				p=p->next->next;
+//			}
+//			else{
+//				p=p->next;
+//			}
+//		}
+//	}
+	if(index>=2){
+		for(int i=0;i<index;i++){
+			if(strcmp(p,p->prev)>0){
+				if(i=index-1){
+					p->next->prev=p->prev;
+					p->prev->next=p->next;
+					p->next=p->prev;
+					head=p;
+				}elseif(i=0){
+					p->prev=p->prev->prev;
+					p->prev->next=p;
+					tail->prev=p;
+					tail->next=NULL;
+				}else{
+					p->next->prev=p->prev;
+					p->prev->next=p->next;
+					p->next=p->prev;
+					p->prev=p->prev->prev;
+					p->prev->next=p;
+					p->next->prev=p;
+				};
+			}elseif(i=0){
+				tail=p;
+				break;
+			}else{
+				break;
+			};
 		}
 	}
 }
