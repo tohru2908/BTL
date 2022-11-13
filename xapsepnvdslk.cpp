@@ -36,23 +36,31 @@ Node* ItemsPosition::createNode(char fullName[]){
 void ItemsPosition::addNewStaff(char Name[], char fullName[]){
 	Node *p=new Node;
 	p=createNode(fullName);
+//	tao node p nam o vi tri cuoi
 	tail->next=p;
 	p->prev=tail;
 	index++;
+//	danh sach co nhieu hon 1 phan tu thi bat dau cho sap xep
 	if(index>=2){
 		for(int i=0;i<index;i++){
+//	quet tu cuoi len dau
+//	strcmp la lenh de so sanh 2 chuoi
 			if(strcmp(p->data,p->prev->data)>0){
+//	i=index-1 la truong hop doi cho o vi tri cuoi cung co nghia la o vi tri head
 				if(i=index-1){
 					p->next->prev=p->prev;
 					p->prev->next=p->next;
 					p->next=p->prev;
 					head=p;
-				}else if(i=0){
+				}
+//	i=0 là truong hop doi cho ngay tai vi tri tail
+				else if(i=0){
 					p->prev=p->prev->prev;
 					p->prev->next=p;
 					tail->prev=p;
 					tail->next=NULL;
-				}else{
+				}
+				else{
 					p->next->prev=p->prev;
 					p->prev->next=p->next;
 					p->next=p->prev;
