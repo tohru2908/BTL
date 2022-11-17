@@ -5,7 +5,7 @@
 #include<conio.h>
 using namespace std;
 struct nhanvien {
-    int manv;
+    char manv[10];
     char tennv[50];
     char sanpham[20];
     int luong;
@@ -78,9 +78,9 @@ void Nhap(LIST &ds, int n){
         ChenCuoi(ds,p);
     }
 }
-void ThemNV (LIST &ds,int n){
-printf("NHAP THONG TIN NHAN VIEN CAN THEM\n");
-    for(int i = 0; i < n; i++){
+void ThemNV (LIST &ds,int m){
+printf("\nNHAP THONG TIN NHAN VIEN CAN THEM\n");
+    for(int i = 0; i < m; i++){
         NV x;
         cout<<"Nhap ma nhan vien : ";
 		fflush(stdin);
@@ -110,10 +110,9 @@ void Xuat(LIST ds){
 }
 void SapXepSanPham(LIST &ds){
     NODE *p, *q;
-    int A=1,B=2,C=3;
     for(p = ds.pHead; p != ds.pTail; p=p->next){
         for(q = p->next; q != NULL; q = q->next){
-            if(p->data.sanpham > q->data.sanpham){
+            if(p->data.manv > q->data.manv){
                 NV x = p->data;
                 p->data = q->data;
                 q->data = x; 
@@ -135,7 +134,61 @@ void XoaCuoi(LIST &ds)
     }
     Xuat(ds);
 }
-void pressAnyKey();
+void XoaNhanVien(LIST &ds){
+    NODE *p, *q;
+    char a[10];
+    p=ds.pHead;
+    q=NULL;
+    printf("\nNhap MSNV can xoa: ");
+    fflush(stdin);
+    gets(a);
+    while (p!=NULL)
+    {
+        if(strcmp(a, p->data.manv)==0)    break;
+        else printf("\nKo co nv can xoa.");
+        q=p;
+        p=p->next;
+    }
+    if(q!=NULL)
+    {
+        if(p!=NULL)
+        {
+            q->next=p->next;
+            delete (p);
+            if(p==ds.pTail)  ds.pTail=q;
+            delete(p);
+        }
+    }
+    else
+    {
+        ds.pHead=p->next;
+        delete(p);
+        if(ds.pHead==NULL)  ds.pTail=NULL;
+    }
+}
+void Tim(LIST ds)
+{
+    NODE *p;
+    int dem=0;
+    char k[20];
+    cout<<"\nNhap ten nv can tim: ";
+    fflush(stdin);
+    gets(k);
+    p=ds.pHead;
+    while (p!=NULL)
+    {
+        if(strcmp(k,p->data.tennv)==0)
+		dem++;
+        p=p->next;
+    }
+    if(dem!=0)
+    {
+            cout<<"\nTim thay nv: ";
+			Xuat(ds);
+    }
+    else cout<<"\nKo tim thay.";
+}
+
 int main(){
     LIST ds;
     int n;
@@ -152,6 +205,8 @@ int main(){
         cout << "**  1. Sap xep NV theo san pham                      **\n";
         cout << "**  2. Hien thi thong tin nhan vien                  **\n";
         cout << "**  3. Them thong tin nhan vien                      **\n";
+        cout << "**  4. Xoa thong tin nhan vien theo MSNV             **\n";
+        cout << "**  5. Tim thong tin nhan vien theo Ten              **\n";
         cout << "**  0. Thoat                                         **\n";
         cout << "*******************************************************\n";
         cout << "Nhap tuy chon: ";
@@ -162,21 +217,33 @@ int main(){
                 getch();
                 return 0;
 			case 1:
-        		cout << "\n1. Sap xep NV theo san pham.";
+        		cout << "\n1. Sap xep NV theo san pham";
                 SapXepSanPham(ds);
-                cout<<"\nSap xep nhan vien thanh cong!";
-                pressAnyKey();
+                cout<<"\nSap xep nhan vien thanh cong\n!";
                 break;
             case 2:
             	cout <<"\n2. Hien thi thong tin nhan vien";
             	Xuat(ds);
-            	pressAnyKey();
             	break;
             case 3:
+            	int m;
+            	cout<<"NHAP SO NV CAN THEM M: ";
+                cin>>n;
             	cout<<"\n3. Them thong nhan vien";
             	ThemNV(ds,n);
-            	cout<<"\nThem thong tin thanh cong";
-            	pressAnyKey();
+            	cout<<"\nThem thong tin thanh cong\n";
             	break;
+            case 4:
+            	cout<<"\n4. Xoa thong tin nhan vien theo MSNV";
+            	XoaNhanVien(ds);
+            	cout<<"\nXoa thong tin nhan vien thanh cong\n";
+            	Xuat(ds);
+            	break;
+            case 5:
+            	cout<<"\n5. Tim thong tin nhan vien theo Ten";
+            	Tim(ds);
+            	cout<<"\nThong tin nhan vien can tim\n";
+            	break;
+}
 }
 }
