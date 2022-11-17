@@ -59,6 +59,21 @@ void dslkk::addlast(NV x){
 		tail=p;
 	};size++;
 }
+//void ItemsPosition::addNewStaff(char Name[], char fullName[]){
+//	Node *p= new Node;
+//	index++;
+//	for(int i=0;i<index;i++){
+//		for(int j=i+1;j<index;j++){
+//			if(strcmp(p,p->next)>0&&p->next!=NULL){
+//				p->next=p->prev;
+//				p=p->next->next;
+//			}
+//			else{
+//				p=p->next;
+//			}
+//		}
+//	}
+//}
 node* dslkk::luong(NV x){
 	node*p=createnode(x);
 	cout<<"luong theo hop dong: ";
@@ -84,6 +99,7 @@ void dslkk::insert(NV x){
 	cin>>x.loaiSP;
 	addlast(x);
 }
+
 
 void dslkk::removefirst(){
 	node *p=head;
