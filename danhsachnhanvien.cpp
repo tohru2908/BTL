@@ -64,6 +64,7 @@ void dslkk::insert(NV x){
 	cin>>x.loaiSP;
 	addNewStaff(x);
 	getName(x);
+	luong(x);
 }
 void dslkk::getName(NV x){
 	for(int i=strlen(x.fullName)-1;i>=0;i--){
@@ -74,7 +75,7 @@ void dslkk::getName(NV x){
 	}
 }
 void dslkk::addNewStaff(NV x){
-	char f[1000],g[1000];
+	char f[1000]="",g[1000]="";
 	node *p=createnode(x);
 //	tao node p nam o vi tri cuoi
 	if (tail!=NULL){
@@ -82,14 +83,14 @@ void dslkk::addNewStaff(NV x){
 	p->prev=tail;}
 	else tail=p;
 	size++;
-	f=p->data.name;
-	g=p->prev->data.name;
+//	strcpy(f,p->data.name);
+//	strcpy(g,p->prev->data.name);
 //	danh sach co nhieu hon 1 phan tu thi bat dau cho sap xep
 	if(size>=2){
 		for(int i=0;i<size;i++){
 //	quet tu cuoi len dau
 //	strcmp la lenh de so sanh 2 chuoi
-			if(strcmp(f,g)>0){
+			if(strcmp(p->data.name,p->prev->data.name)>0){
 //	i=index-1 la truong hop doi cho o vi tri cuoi cung co nghia la o vi tri head
 				if(i=size-1){
 					p->next->prev=p->prev;
@@ -119,7 +120,7 @@ void dslkk::addNewStaff(NV x){
 				break;
 			};
 		}
-	}	
+	}
 }
 node* dslkk::luong(NV x){
 	node*p=createnode(x);
@@ -171,5 +172,8 @@ void dslkk::print(){
 	for(node *i=head; i!=NULL; i=i->next)
 	cout<<i->data.fullName<<"\t"<<i->data.MSNV<<"\t"<<i->data.loaiSP<<"\t"<<i->data.total;}
 int main(){
-	
+	dslkk l;
+	NV NV1;
+	l.insert(NV1);
+	l.print();
 }
