@@ -31,6 +31,7 @@ struct dslkk{
 	void searchStaffByPos(int pos);
 	void removeStaffByPos(int pos);
 	void getName(NV x);
+	char takename[1000];
 	void print();
 	node* luong(NV x);
 };
@@ -63,26 +64,31 @@ void dslkk::insert(NV x){
 	cout<<"loai SP: ";
 	cin>>x.loaiSP;
 	getName(x);
+	strcpy(x.name,this->takename+0);
+	//cout<<"test name:"<<x.name<<endl;
 	addNewStaff(x);
+	
 	luong(x);
 }
 void dslkk::getName(NV x){
+	
 	for(int i=strlen(x.fullName)-1;i>=0;i--){
 		if(x.fullName[i]==' '){
-			strcpy(x.name,x.fullName+1+i);
+			strcpy(this->takename,x.fullName+1+i);
+			//cout<<"test name:"<<x.name<<endl;
 			break;
 		}
 	}
-	
 }
 void dslkk::addNewStaff(NV x){
 	char f[1000]="",g[1000]="";
 	node *p=createnode(x);
 //	tao node p nam o vi tri cuoi
+
 	if (tail!=NULL){
 	tail->next=p;
 	p->prev=tail;}
-	else head=tail=p;
+	tail=p;
 	size++;
 //	strcpy(f,p->data.name);
 //	strcpy(g,p->prev->data.name);
@@ -93,14 +99,15 @@ void dslkk::addNewStaff(NV x){
 //	strcmp la lenh de so sanh 2 chuoi
 			if(strcmp(p->data.name,p->prev->data.name)>0){
 //	i=index-1 la truong hop doi cho o vi tri cuoi cung co nghia la o vi tri head
-				if(i=size-1){
+				if(i==size-1){
+					//if(p->next!=NULL){
 					p->next->prev=p->prev;
 					p->prev->next=p->next;
 					p->next=p->prev;
 					head=p;
 				}
-//	i=0 là truong hop doi cho ngay tai vi tri tail
-				else if(i=0){
+//	i=0 l? truong hop doi cho ngay tai vi tri tail
+				else if(i==0){
 					p->prev=p->prev->prev;
 					p->prev->next=p;
 					tail->prev=p;
@@ -114,7 +121,7 @@ void dslkk::addNewStaff(NV x){
 					p->prev->next=p;
 					p->next->prev=p;
 				};
-			}else if(i=0){
+			}else if(i==0){
 				tail=p;
 				break;
 			}else{
@@ -122,6 +129,7 @@ void dslkk::addNewStaff(NV x){
 			};
 		}
 	}
+	else head=tail=p;
 }
 node* dslkk::luong(NV x){
 	node*p=createnode(x);
@@ -171,14 +179,13 @@ void dslkk::removeStaffByPos(int pos){
 }
 void dslkk::print(){
 	for(node *i=head; i!=NULL; i=i->next)
-	cout<<i->data.fullName<<"\t"<<i->data.MSNV<<"\t"<<i->data.loaiSP<<"\t"<<i->data.total<<i->data.name<<"\n";}
+	cout<<i->data.name<<"\t"<<i->data.MSNV<<"\t"<<i->data.loaiSP<<"\t"<<i->data.total<<endl;}
 int main(){
 	dslkk l;
-	NV NV1;
+	NV NV1,NV2,NV3;
 	l.insert(NV1);
+	l.insert(NV2);
 	l.print();
-	l.insert(NV1);
-	l.print();
-	l.insert(NV1);
+	l.insert(NV3);
 	l.print();
 }
