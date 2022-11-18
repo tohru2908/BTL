@@ -62,8 +62,8 @@ void dslkk::insert(NV x){
 	gets(x.fullName);
 	cout<<"loai SP: ";
 	cin>>x.loaiSP;
-	addNewStaff(x);
 	getName(x);
+	addNewStaff(x);
 	luong(x);
 }
 void dslkk::getName(NV x){
@@ -73,6 +73,7 @@ void dslkk::getName(NV x){
 			break;
 		}
 	}
+	
 }
 void dslkk::addNewStaff(NV x){
 	char f[1000]="",g[1000]="";
@@ -81,7 +82,7 @@ void dslkk::addNewStaff(NV x){
 	if (tail!=NULL){
 	tail->next=p;
 	p->prev=tail;}
-	else tail=p;
+	else head=tail=p;
 	size++;
 //	strcpy(f,p->data.name);
 //	strcpy(g,p->prev->data.name);
@@ -170,10 +171,14 @@ void dslkk::removeStaffByPos(int pos){
 }
 void dslkk::print(){
 	for(node *i=head; i!=NULL; i=i->next)
-	cout<<i->data.fullName<<"\t"<<i->data.MSNV<<"\t"<<i->data.loaiSP<<"\t"<<i->data.total;}
+	cout<<i->data.fullName<<"\t"<<i->data.MSNV<<"\t"<<i->data.loaiSP<<"\t"<<i->data.total<<i->data.name<<"\n";}
 int main(){
 	dslkk l;
 	NV NV1;
+	l.insert(NV1);
+	l.print();
+	l.insert(NV1);
+	l.print();
 	l.insert(NV1);
 	l.print();
 }
