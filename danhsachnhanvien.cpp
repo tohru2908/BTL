@@ -107,9 +107,16 @@ void dslkk::addNewStaff(NV x){
 					head=p;
 				}
 //	i=0 l? truong hop doi cho ngay tai vi tri tail
-				else if(i==0){
+				else if(i==0&&size>2){
 					p->prev=p->prev->prev;
 					p->prev->next=p;
+					tail->prev=p;
+					tail->next=NULL;
+				}
+				else if(i==0&&size==2){
+					p->prev=p->prev->prev;
+					p->prev->next=p;
+					head=p;
 					tail->prev=p;
 					tail->next=NULL;
 				}
@@ -121,12 +128,13 @@ void dslkk::addNewStaff(NV x){
 					p->prev->next=p;
 					p->next->prev=p;
 				};
-			}else if(i==0){
+			}else if(i==0&&size==1){
+				head=tail=p;
+				break;
+			}else if(i==0&&size>1){
 				tail=p;
 				break;
-			}else{
-				break;
-			};
+			}
 		}
 	}
 	else head=tail=p;
@@ -189,3 +197,4 @@ int main(){
 	l.insert(NV3);
 	l.print();
 }
+
