@@ -123,11 +123,12 @@ void dslkk::topkpi(){
 	int top;
 	cout<<"Moi nhap top KPI:";
 	cin>>top;
-	dslkk kpi;
-	kpi.head=kpi.tail=createnode(this->head->data);
+	dslkk kpi; //tao danh sach moi de thuc hien so sanh
+	kpi.head=kpi.tail=createnode(this->head->data); //node dau tien ko can so sanh
 	kpi.size=1;
-	for(node *i=this->head->next; i!=NULL; i=i->next){
-		for(node *j=kpi.head; j!=NULL; j=j->next){
+	//bat dau so sanh tu node 2
+	for(node *i=this->head->next; i!=NULL; i=i->next){ //kpi node i cua list chính
+		for(node *j=kpi.head; j!=NULL; j=j->next){// so sanh voi kpi node j cua list kpi
 			if(i->data.KPI>=j->data.KPI) 
 			{	kpi.addBefore(i->data,j);
 				break;
@@ -135,15 +136,23 @@ void dslkk::topkpi(){
 			if(j==kpi.tail) {kpi.addAfter(i->data,j); break;}
 		}
 	}
+	//xu ly so luong can print
 	
 	if (top>=kpi.size) top=kpi.size;
-	else{
+	/*neu so luong can orint < size thi in theo size
+	VD: can print top 5, nhung chi co 3 node (size=3)=>print theo size*/
+	else{//neu so luong can print >=size thi di ktra node tai vi tri top
 		node *x=kpi.head; int dem=1;
 		while(dem<top){
 			x=x->next;
 			dem++;
 		}
 		//bay gio i la node vi tri cuoi bang top 
+		
+		/*Neu node top co kpi= kpi node sau thi tang top
+		Muc dich la lay het nguoi cung kpi
+		VD: lay top 3 cua: 23, 43, 51, 23, 19
+		Vi co 2 nguoi kpi=23--> print 4 nguoi*/
 		while(x->data.KPI==x->next->data.KPI){
 			top++;
 			x=x->next;
