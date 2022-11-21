@@ -112,7 +112,7 @@ void dslkk::addNewStaff(NV x){
 	for (node *i=head;i!=NULL;i=i->next){
 		if(strcmp(p->data.name,i->data.name)<0) //xem them ve ham strcmp
 			{ addBefore(p->data,i); break;}
-		else if(tail==i&&size>1) addAfter(p->data,i);
+		else if(tail==i&&tail!=p) {addAfter(p->data,i); break;};
 	}
 	
 
