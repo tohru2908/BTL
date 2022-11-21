@@ -97,9 +97,8 @@ void dslkk::insert(NV x){
 void dslkk::getName(NV x){
 	
 	for(int i=strlen(x.fullName)-1;i>=0;i--){
-		if(x.fullName[i]==' '){
-			strcpy(this->takename,x.fullName+1+i);
-			//cout<<"test name:"<<x.name<<endl;
+		if(x.fullName[i-1]==' '||i==0){
+			strcpy(this->takename,x.fullName+i);
 			break;
 		}
 	}
@@ -112,7 +111,8 @@ void dslkk::addNewStaff(NV x){
 	for (node *i=head;i!=NULL;i=i->next){
 		if(strcmp(p->data.name,i->data.name)<0) //xem them ve ham strcmp
 			{ addBefore(p->data,i); break;}
-		else if(tail==i&&tail!=p) {addAfter(p->data,i); break;};
+		else if(tail==i&&tail!=p) //loai tru tuong hop nhap them node dau tien
+			{addAfter(p->data,i); break;};
 	}
 	
 
