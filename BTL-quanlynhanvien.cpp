@@ -30,6 +30,7 @@ struct dslkk{
 	void remove(int pos);
 	void print();
 	node* luong(NV x);
+	bool duyetMSNV(NV x);
 };
 dslkk::dslkk(){
 	head=tail=NULL;
@@ -85,14 +86,30 @@ node* dslkk::luong(NV x){
 	p->data.total=p->data.LCD+(p->data.KPI*p->data.LBD);
 	return p;
 }
+bool dslkk::duyetMSNV(NV x){
+	node *p= createnode(x);
+	for (node *i=head;i!=NULL;i=i->next){
+		if(strcmp(p->data.MSNV,i->data.MSNV)==0){
+			return true;
+		}
+	}
+	return false;
+}
+
 void dslkk::insert(NV x){
 	if(head==NULL)
 		cout<<"danh sach trong\n";
 
 	cout<<"nhap thong tin nhan vien\n";
-	cout<<"Nhap MSNV: ";
-	cin>>x.MSNV;
-	cin.ignore();
+	int duyet=0;
+	while (duyet==0){
+		cout<<"Nhap MSNV: ";
+		cin>>x.MSNV;
+		cin.ignore();
+		if (duyetMSNV(x)) 
+			cout<<"MSNV bi trung, moi nhap lai\n";
+		else duyet=1;
+	}
 	cout<<"Nhap Ho va Ten nhan vien: ";
 	gets(x.hoten);
 	cout<<"loai SP: ";
@@ -128,9 +145,9 @@ void dslkk::print(){
 	cout<<i->data.hoten<<"\t"<<i->data.MSNV<<"\t"<<i->data.loaiSP<<"\t"<<i->data.total;}
 int main() {
 dslkk l;
-NV NV1;
+NV NV1,NV2;
 l.insert(NV1);
-//l.luong(NV1);
+l.insert(NV2);
 l.print();
 
 }
