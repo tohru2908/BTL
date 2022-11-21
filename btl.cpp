@@ -3,10 +3,12 @@
 #include<string.h>
 #include<math.h>
 #include<iostream>
+#include<stdbool.h>
 using namespace std;
 struct nhanvien{
 	int MSNV;
-	char hoten[100];
+	char name[100];
+	char fullName[1000];
 	int loaiSP;
 	float KPI;
 	long long LHD,total,LCD,LBD;
@@ -24,6 +26,8 @@ struct dslkk{
 	dslkk();
 	node *createnode(NV x);
 	void addlast(NV x);
+	bool duyetMSNV(NV x);
+	void addNewStaff(NV x);
 	void insert(NV x);
 	void removefirst();
 	void removelast();
@@ -33,6 +37,8 @@ struct dslkk{
 	void addBefore(NV p, node *y);
 	void addAfter(NV p, node *y);
 	void topkpi();
+	char takename[1000];
+	void getName(NV x);
 	void printt(int sl);
 	void print();
 	node* luong(NV x);
@@ -43,7 +49,7 @@ dslkk::dslkk(){
 node *dslkk::createnode(NV x){
 	node *p=new node;
 	if (p==NULL){
-		cout<<"khong du bo nho";
+		cout<<"Khong du bo nho";
 		return NULL;
 	}
 	else {
@@ -53,36 +59,9 @@ node *dslkk::createnode(NV x){
 		return p;
 	}
 }
-void dslkk::addlast(NV x){
-	node *p=createnode(x);
-	p=luong(x);
-	if (head==NULL){
-		head=tail=p;
-	}
-	else{
-		tail->next=p;
-		p->prev=tail;
-		tail=p;
-	};size++;
-}
-//void ItemsPosition::addNewStaff(char Name[], char fullName[]){
-//	Node *p= new Node;
-//	index++;
-//	for(int i=0;i<index;i++){
-//		for(int j=i+1;j<index;j++){
-//			if(strcmp(p,p->next)>0&&p->next!=NULL){
-//				p->next=p->prev;
-//				p=p->next->next;
-//			}
-//			else{
-//				p=p->next;
-//			}
-//		}
-//	}
-//}
 node* dslkk::luong(NV x){
 	node*p=createnode(x);
-	cout<<"luong theo hop dong: ";
+	cout<<"Luong theo hop dong: ";
 	cin>>p->data.LHD;
 	cout<<"KPI: ";
 	cin>>p->data.KPI;
@@ -91,24 +70,62 @@ node* dslkk::luong(NV x){
 	p->data.total=p->data.LCD+(p->data.KPI*p->data.LBD);
 	return p;
 }
+bool dslkk::duyetMSNV(NV x){
+	node *p= createnode(x);
+	for (node *i=head;i!=NULL;i=i->next){
+		if(i->data.MSNV==p->data.MSNV){
+			return true;
+		}
+	}
+	return false;
+}
 void dslkk::insert(NV x){
 	if(head==NULL)
-		cout<<"danh sach trong\n";
+		cout<<"Danh sach trong\n";
 
-	cout<<"nhap thong tin nhan vien\n";
-	cout<<"Nhap MSNV: ";
-	cin>>x.MSNV;
-	cin.ignore();
+	cout<<"Nhap thong tin nhan vien\n";
+	int duyet=0;
+	while (duyet==0){
+		cout<<"Nhap MSNV: ";
+		cin>>x.MSNV;
+		cin.ignore();
+		if (duyetMSNV(x)) 
+			cout<<"MSNV bi trung, moi nhap lai\n";
+		else duyet=1;
+	}
 	cout<<"Nhap Ho va Ten nhan vien: ";
 	fflush(stdin);
-	gets(x.hoten);
-	cout<<"loai SP: ";
-	fflush(stdin);
+	gets(x.fullName);
+	cout<<"Loai SP: ";
 	cin>>x.loaiSP;
-	addlast(x);
+	fflush(stdin);
+	getName(x);
+	strcpy(x.name,this->takename+0);
+	addNewStaff(x);
+}
+void dslkk::getName(NV x){
+	
+	for(int i=strlen(x.fullName)-1;i>=0;i--){
+		if(x.fullName[i-1]==' '||i==0){
+			strcpy(this->takename,x.fullName+i);
+			break;
+		}
+	}
 }
 
-
+void dslkk::addNewStaff(NV x){
+	node *p=createnode(x);
+	p=luong(x);
+	if (head==NULL) {head=tail=p; size++;}
+	
+	for (node *i=head;i!=NULL;i=i->next){
+		if(strcmp(p->data.name,i->data.name)<0)
+			{ addBefore(p->data,i); break;}
+		else if(tail==i&&tail!=p) 
+			{addAfter(p->data,i); break;};
+	}
+	
+}
 void dslkk::removefirst(){
 	node *p=head;
 	head=head->next;
@@ -141,7 +158,7 @@ void dslkk::removebymsnv(int pos){
 	}
 	if(p==head) removefirst();
 	else if(p==tail) removelast();
-	else if(p==NULL)cout<<"danh sach trong";
+	else if(p==NULL)cout<<"Danh sach trong";
 	else {
 		node* k=new node;
 		node* t= new node;
@@ -166,13 +183,13 @@ void dslkk::removebymsnv(int pos){
  tail=NULL;
 } 
 void dslkk::timkiemnguoilamsp(int x){
-	cout<<"nguoi lam san pham la"<<endl;
+	cout<<"Nguoi lam san pham la"<<endl;
 	for (node* i=head;i!=NULL;i=i->next){
 	if(i->data.loaiSP==x)
-	cout<<"\t"<<i->data.hoten<<endl;
-};}
+	cout<<"\t"<<i->data.fullName<<endl;
+   }
+}
 void dslkk::addBefore(NV p, node *y){
-//them node x vao truoc node y;
 	node *x=createnode(p);
 	if (y!=head){
 		x->prev=y->prev;
@@ -198,7 +215,7 @@ void dslkk::addAfter(NV p, node *y){
 void dslkk::printt(int sl){
 	int dem;
 	for(node *i=head; dem<sl; i=i->next){
-		cout<<i->data.hoten<<"\t"<<i->data.KPI;
+		cout<<i->data.fullName<<"\t"<<i->data.KPI<<endl;
 		dem++;
 	}
 }
@@ -206,12 +223,11 @@ void dslkk::topkpi(){
 	int top;
 	cout<<"Moi nhap top KPI:";
 	cin>>top;
-	dslkk kpi; //tao danh sach moi de thuc hien so sanh
-	kpi.head=kpi.tail=createnode(this->head->data); //node dau tien ko can so sanh
+	dslkk kpi; 
+	kpi.head=kpi.tail=createnode(this->head->data); 
 	kpi.size=1;
-	//bat dau so sanh tu node 2
-	for(node *i=this->head->next; i!=NULL; i=i->next){ //kpi node i cua list chính
-		for(node *j=kpi.head; j!=NULL; j=j->next){// so sanh voi kpi node j cua list kpi
+	for(node *i=this->head->next; i!=NULL; i=i->next){ 
+		for(node *j=kpi.head; j!=NULL; j=j->next){
 			if(i->data.KPI>=j->data.KPI) 
 			{	kpi.addBefore(i->data,j);
 				break;
@@ -219,59 +235,121 @@ void dslkk::topkpi(){
 			if(j==kpi.tail) {kpi.addAfter(i->data,j); break;}
 		}
 	}
-	//xu ly so luong can print
-	
 	if (top>=kpi.size) top=kpi.size;
-	/*neu so luong can orint < size thi in theo size
-	VD: can print top 5, nhung chi co 3 node (size=3)=>print theo size*/
-	else{//neu so luong can print >=size thi di ktra node tai vi tri top
+	else{
 		node *x=kpi.head; int dem=1;
 		while(dem<top){
 			x=x->next;
 			dem++;
 		}
-		//bay gio i la node vi tri cuoi bang top 
-		
-		/*Neu node top co kpi= kpi node sau thi tang top
-		Muc dich la lay het nguoi cung kpi
-		VD: lay top 3 cua: 23, 43, 51, 23, 19
-		Vi co 2 nguoi kpi=23--> print 4 nguoi*/
 		while(x->data.KPI==x->next->data.KPI){
 			top++;
 			x=x->next;
 		}
 	}
-	cout<<"\ntop hang:"<<top<<endl;
+	cout<<"\nTop hang:"<<top<<endl;
 	kpi.printt(top);
 }
 void dslkk::print(){
 	if(head==NULL)
 	{
-		cout<<"danh sach trong"<<endl;
+		cout<<endl;
+		cout<<"Danh sach trong"<<endl;
 	}
 	else{
 	for(node *i=head; i!=NULL; i=i->next)
-	cout<<i->data.hoten<<"\t"<<i->data.MSNV<<"\t"<<i->data.loaiSP<<"\t"<<endl;}}
+	cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN ""\t"<<i->data.MSNV<<"\t"<<"SAN PHAM\t"<<i->data.loaiSP<<"\t"<<"LUONG \t"<<i->data.total<<endl;}}
 int main() {
 dslkk l;
 NV NV1;
 int n;
-cout<<"nhap so nhan vien can nhap"<<endl;
+cout<<"NHAP SO NHAN VIEN CAN NHAP "<<endl;
 cin>>n;
 for(int i=0;i<n;i++){
 l.insert(NV1);
-//l.luong(NV1);
 }
-int g;
-cout<<"nhap msnv can xoa"<<endl;
-cin>>g;
-l.removebymsnv(g);
-l.print();
-cout<<"nhap san pham can tim kiem"<<endl;
-int x;
-cin>>x;
-l.timkiemnguoilamsp(x);
-l.topkpi();
-l.xoadanhsach();
-l.print();
+int key;
+    while(true) {
+        cout << "            CHUONG TRINH QUAN LY NHAN VIEN \n          ";
+        cout << "*************************MENU**************************\n";
+        cout << "**  1. Hien thi danh sach nhan vien                  **\n";
+        cout << "**  2. Tim NV lam san pham                           **\n";
+        cout << "**  3. Them nhan vien moi                            **\n";
+        cout << "**  4. Xoa thong tin nhan vien theo MSNV             **\n";
+        cout << "**  5. Tim top KPI                                   **\n";
+        cout << "**  6. Xoa danh sach                                 **\n";
+        cout << "**  0. Thoat                                         **\n";
+        cout << "*******************************************************\n";
+        cout << "Nhap tuy chon: ";
+        cin >> key;
+        switch(key){
+		 	case 0:
+        	    cout << "\nBan da chon thoat chuong trinh!";
+                
+            return 0;	
+            case 1: 
+			    cout<<"Thong tin nhan vien "<<endl;
+			    l.print();
+			    break;
+			case 2:
+				cout<<"Nhap loai san pham can tim nhan vien"<<endl;
+				int g;
+				cin>>g;
+				l.timkiemnguoilamsp(g);
+				break;
+			case 3:
+			    cout<<"Nhap thong tin nhan vien can them"<<endl;
+				l.insert(NV1);
+				break;
+			case 4:
+				cout<<"Nhap MSNV can xoa"<<endl;
+				int h;
+				cin>>h;
+				l.removebymsnv(h);
+				break;
+			case 5:
+				l.topkpi();
+				break;
+			case 6:
+				l.xoadanhsach();
+			    cout<<"Ban da xoa toan bo danh sach nhan vien"<<endl;
+			    break;
+			}
+	}
 }
+			
+			    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
