@@ -34,6 +34,8 @@ struct dslkk{
 	void removebymsnv(int pos);
 	void xoadanhsach();
 	void timkiemnguoilamsp(int x);
+	void timten();
+	void timms();
 	void addBefore(NV p, node *y);
 	void addAfter(NV p, node *y);
 	void topkpi();
@@ -80,9 +82,6 @@ bool dslkk::duyetMSNV(NV x){
 	return false;
 }
 void dslkk::insert(NV x){
-	if(head==NULL)
-		cout<<"Danh sach trong\n";
-
 	cout<<"Nhap thong tin nhan vien\n";
 	int duyet=0;
 	while (duyet==0){
@@ -127,6 +126,10 @@ void dslkk::addNewStaff(NV x){
 	
 }
 void dslkk::removefirst(){
+	if(head==NULL)
+	{
+		cout<<endl;
+		cout<<"Danh sach trong"<<endl;}
 	node *p=head;
 	head=head->next;
 	head->prev = NULL;
@@ -138,6 +141,10 @@ void dslkk::removefirst(){
 	}
 }
 void dslkk::removelast(){
+	if(head==NULL)
+	{
+		cout<<endl;
+		cout<<"Danh sach trong"<<endl;}
 	node *p=tail;
 	tail=tail->prev;
 	tail->next=NULL;
@@ -183,6 +190,9 @@ void dslkk::removebymsnv(int pos){
  tail=NULL;
 } 
 void dslkk::timkiemnguoilamsp(int x){
+	if(head==NULL){
+		cout<<"Danh sach trong";
+	}
 	cout<<"Nguoi lam san pham la"<<endl;
 	for (node* i=head;i!=NULL;i=i->next){
 	if(i->data.loaiSP==x)
@@ -258,26 +268,78 @@ void dslkk::print(){
 	}
 	else{
 	for(node *i=head; i!=NULL; i=i->next)
-	cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN ""\t"<<i->data.MSNV<<"\t"<<"SAN PHAM\t"<<i->data.loaiSP<<"\t"<<"LUONG \t"<<i->data.total<<endl;}}
+	cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN ""\t"<<i->data.MSNV<<"\t"<<"SAN PHAM\t"<<i->data.loaiSP<<"\t"<<"\tKPI"<<i->data.KPI<<"\t"<<"LUONG \t"<<i->data.total<<endl;}}
+void dslkk::timten(){
+	node *p;
+    int dem=0;
+    char k[20];
+    cout<<"\nNhap ten nv can tim: ";
+    fflush(stdin);
+    gets(k);
+    p=head;
+    while (p!=NULL)
+    {
+        if(strcmp(k,p->data.fullName)==0)
+		dem++;
+        p=p->next;
+    }
+    if(dem!=0)
+    {
+            cout<<"\nTim thay nv: ";
+			print();
+    }
+    else cout<<"\nKo tim thay.";
+}
+void dslkk::timms(){
+	node *p;
+    int dem=0;
+    int b;
+    cout<<"\nNhap msnv can tim: ";
+    fflush(stdin);
+    cin>>b;
+    p=head;
+    while (p!=NULL)
+    {
+        if(b=p->data.MSNV==0)
+		dem++;
+        p=p->next;
+    }
+    if(dem!=0)
+    {
+            cout<<"\nTim thay nv: ";
+			print();
+    }
+    else cout<<"\nKo tim thay.";
+}
 int main() {
 dslkk l;
 NV NV1;
 int n;
 cout<<"NHAP SO NHAN VIEN CAN NHAP "<<endl;
 cin>>n;
+if(n>=0){
 for(int i=0;i<n;i++){
 l.insert(NV1);
+cout<<"Nhap thong tin thanh cong\n";
+}
+}
+else {
+	cout<<"Moi nhap lai N(N>0): ";
+	cin>>n;
+	l.insert(NV1);
+	cout<<"Nhap thong tin thanh cong\n";
 }
 int key;
     while(true) {
-        cout << "            CHUONG TRINH QUAN LY NHAN VIEN \n          ";
+        cout << "            CHUONG TRINH QUAN LY NHAN VIEN \n";
         cout << "*************************MENU**************************\n";
         cout << "**  1. Hien thi danh sach nhan vien                  **\n";
         cout << "**  2. Tim NV lam san pham                           **\n";
-        cout << "**  3. Them nhan vien moi                            **\n";
-        cout << "**  4. Xoa thong tin nhan vien theo MSNV             **\n";
-        cout << "**  5. Tim top KPI                                   **\n";
-        cout << "**  6. Xoa danh sach                                 **\n";
+        cout << "**  3. Tim thong tin nhan vien                       **\n";
+        cout << "**  4. Them nhan vien moi                            **\n";
+        cout << "**  5. Xoa thong tin nhan vien                       **\n";
+        cout << "**  6. Tim top KPI                                   **\n";
+        cout << "**  7. Xoa danh sach                                 **\n";
         cout << "**  0. Thoat                                         **\n";
         cout << "*******************************************************\n";
         cout << "Nhap tuy chon: ";
@@ -298,58 +360,74 @@ int key;
 				l.timkiemnguoilamsp(g);
 				break;
 			case 3:
-			    cout<<"Nhap thong tin nhan vien can them"<<endl;
-				l.insert(NV1);
+				int k;
+				cout << "*************************MENU**************************\n";
+            	cout << "**  1. Tim thong tin nhan vien theo ten              **\n";
+                cout << "**  2. Tin thonh tin nhan vien theo MS               **\n";
+                cout << "*******************************************************\n";
+                cout << "Nhap tuy chon: ";
+                cin >> k;
+			    switch(k){
+			    	case 1:
+			    		l.timten();
+			    		break;
+			    	case 2:
+			    		l.timms();
+			    		break;
+				}
 				break;
 			case 4:
-				cout<<"Nhap MSNV can xoa"<<endl;
-				int h;
-				cin>>h;
-				l.removebymsnv(h);
+				int m;
+            	cout<<"NHAP SO NV CAN THEM M: ";
+                cin>>m;
+                if (m>0){
+            	for(int i=0;i<n;i++){
+                l.insert(NV1);
+                cout<<"Them thong tin thanh cong\n";
+}
+            	cout<<"\nThem thong tin thanh cong\n";}
+            	else {
+            		cout<<"Moi nhap lai M(M>0): ";
+	                cin>>m;
+			        for(int i=0;i<m;i++){
+                    l.insert(NV1);
+                    cout<<"Them thong tin thanh cong\n";
+}      
+			}
 				break;
 			case 5:
-				l.topkpi();
+            	int b;
+            	cout << "*************************MENU**************************\n";
+            	cout << "**  1. Xoa thong tin nhan vien o vi tri dau          **\n";
+                cout << "**  2. Xoa thong tin nhan vien o vi tri cuoi         **\n";
+                cout << "**  3. Xoa thong tin nhan vien theo MSNV             **\n";
+                cout << "*******************************************************\n";
+                cout << "Nhap tuy chon: ";
+                cin >> b;
+                switch(b){
+                	case 1:
+                		l.removefirst();
+                		cout<<"Xoa thanh cong\n";
+                		break;
+                	case 2:
+                		l.removelast();
+                		cout<<"Xoa thanh cong\n";
+                		break;
+                	case 3:
+                		cout<<"Nhap MSNV can xoa"<<endl;
+				        int h;
+				        cin>>h;
+				        l.removebymsnv(h);
+				        break;
+				    }
 				break;
 			case 6:
+				l.topkpi();
+				break;
+			case 7:
 				l.xoadanhsach();
 			    cout<<"Ban da xoa toan bo danh sach nhan vien"<<endl;
 			    break;
 			}
 	}
 }
-			
-			    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
