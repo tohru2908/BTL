@@ -93,11 +93,11 @@ void dslkk::insert(NV x){
 		else duyet=1;
 	}
 	cout<<"Nhap Ho va Ten nhan vien: ";
-	fflush(stdin);
+	cin.ignore();
 	gets(x.fullName);
 	cout<<"Loai SP: ";
 	cin>>x.loaiSP;
-	fflush(stdin);
+	cin.ignore();
 	getName(x);
 	strcpy(x.name,this->takename+0);
 	addNewStaff(x);
@@ -190,15 +190,22 @@ void dslkk::removebymsnv(int pos){
  tail=NULL;
 } 
 void dslkk::timkiemnguoilamsp(int x){
+int t=0;
 	if(head==NULL){
 		cout<<"Danh sach trong";
 	}
+	else {
 	cout<<"Nguoi lam san pham la"<<endl;
 	for (node* i=head;i!=NULL;i=i->next){
-	if(i->data.loaiSP==x)
+	if(i->data.loaiSP==x){
 	cout<<"\t"<<i->data.fullName<<endl;
+	t++;
    }
+   }
+   if(t==0) cout<<"Khong co nguoi lam san pham do"<<endl;
 }
+}
+
 void dslkk::addBefore(NV p, node *y){
 	node *x=createnode(p);
 	if (y!=head){
@@ -270,46 +277,36 @@ void dslkk::print(){
 	for(node *i=head; i!=NULL; i=i->next)
 	cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN ""\t"<<i->data.MSNV<<"\t"<<"SAN PHAM\t"<<i->data.loaiSP<<"\t"<<"\tKPI"<<i->data.KPI<<"\t"<<"LUONG \t"<<i->data.total<<endl;}}
 void dslkk::timten(){
-	node *p;
+	node *i;
     int dem=0;
     char k[20];
     cout<<"\nNhap ten nv can tim: ";
-    fflush(stdin);
+    cin.ignore();
     gets(k);
-    p=head;
-    while (p!=NULL)
-    {
-        if(strcmp(k,p->data.fullName)==0)
-		dem++;
-        p=p->next;
-    }
-    if(dem!=0)
-    {
-            cout<<"\nTim thay nv: ";
-			print();
-    }
-    else cout<<"\nKo tim thay.";
+    cout<<"Thong tin nguoi can tim la"<<endl;
+	for (node* i=head;i!=NULL;i=i->next){
+	if(strcmp(k,i->data.fullName)==0){
+	cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN ""\t"<<i->data.MSNV<<"\t"<<"SAN PHAM\t"<<i->data.loaiSP<<"\t"<<"\tKPI"<<i->data.KPI<<"\t"<<"LUONG \t"<<i->data.total<<endl;
+   }
+}
+   if(strcmp(k,i->data.fullName)==0) cout<<"Khong co nguoi lam san pham do"<<endl;
+   
 }
 void dslkk::timms(){
-	node *p;
+	node *i;
     int dem=0;
     int b;
     cout<<"\nNhap msnv can tim: ";
-    fflush(stdin);
+    cin.ignore();
     cin>>b;
-    p=head;
-    while (p!=NULL)
-    {
-        if(b=p->data.MSNV==0)
-		dem++;
-        p=p->next;
-    }
-    if(dem!=0)
-    {
-            cout<<"\nTim thay nv: ";
-			print();
-    }
-    else cout<<"\nKo tim thay.";
+    cout<<"Thong tin nguoi can tim la"<<endl;
+	for (node* i=head;i!=NULL;i=i->next){
+	if(i->data.loaiSP==b){
+	cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN ""\t"<<i->data.MSNV<<"\t"<<"SAN PHAM\t"<<i->data.loaiSP<<"\t"<<"\tKPI"<<i->data.KPI<<"\t"<<"LUONG \t"<<i->data.total<<endl;
+   }
+}
+   if(i->data.loaiSP!=b) cout<<"Khong co nguoi lam san pham do"<<endl;
+   
 }
 int main() {
 dslkk l;
@@ -323,7 +320,7 @@ l.insert(NV1);
 cout<<"Nhap thong tin thanh cong\n";
 }
 }
-else {
+while(n<0){
 	cout<<"Moi nhap lai N(N>0): ";
 	cin>>n;
 	l.insert(NV1);
@@ -381,18 +378,18 @@ int key;
             	cout<<"NHAP SO NV CAN THEM M: ";
                 cin>>m;
                 if (m>0){
-            	for(int i=0;i<n;i++){
+            	for(int i=0;i<m;i++){
                 l.insert(NV1);
                 cout<<"Them thong tin thanh cong\n";
-}
-            	cout<<"\nThem thong tin thanh cong\n";}
-            	else {
+            	}
+			}
+            	while(m<0) {
             		cout<<"Moi nhap lai M(M>0): ";
 	                cin>>m;
 			        for(int i=0;i<m;i++){
                     l.insert(NV1);
                     cout<<"Them thong tin thanh cong\n";
-}      
+                    }      
 			}
 				break;
 			case 5:
