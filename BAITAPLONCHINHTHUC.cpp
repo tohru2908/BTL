@@ -5,15 +5,14 @@
 #include<iostream>
 #include<stdbool.h>
 using namespace std;
-struct nhanvien{
+typedef struct nhanvien{
 	char MSNV[100];
 	char name[100];
 	char fullName[1000];
 	int loaiSP;
 	float KPI;
 	long long LHD,total,LCD,LBD;
-};
-typedef struct nhanvien NV;
+}NV;
 struct node{
 	NV data;
 	node *next;
@@ -25,22 +24,25 @@ struct dslkk{
 	int size=0;
 	dslkk();
 	node *createnode(NV x);
+	char takename[1000];
+	void getName(NV x);
 	void addlast(NV x);
 	bool duyetMSNV(NV x);
 	void addNewStaff(NV x);
 	void insert(NV x);
+	void addBefore(NV p, node *y);
+	void addAfter(NV p, node *y);
+	
 	void removefirst();
 	void removelast();
 	void removebymsnv(char pos[]);
 	void xoadanhsach();
+	
 	void timsp(int x);
 	void timten();
 	void timms();
-	void addBefore(NV p, node *y);
-	void addAfter(NV p, node *y);
 	void topkpi();
-	char takename[1000];
-	void getName(NV x);
+	
 	void printt(int sl);
 	void print();
 };
@@ -173,8 +175,9 @@ void dslkk::removebymsnv(char pos[]){
 				t=k->next;
 				q->next=t;
 				t->prev=q;
-				if(p==tail); tail=q;
+				if(p==tail) tail=q;
 				delete k;
+				cout<<"Da xoa nhan vien\n";
 			}
 		}
 	}
@@ -230,13 +233,13 @@ void dslkk::addAfter(NV p, node *y){
 void dslkk::printt(int sl){
 	int dem;
 	for(node *i=head; dem<sl; i=i->next){
-		cout<<endl<<i->data.fullName<<"\t"<<i->data.KPI;
+		cout<<i->data.fullName<<"\tMSNV:"<<i->data.MSNV<<"\tKPI:"<<i->data.KPI<<endl;
 		dem++;
 	}
 }
 void dslkk::topkpi(){
 	int top;
-	cout<<"Moi nhap top KPI:";
+	cout<<"Moi nhap top KPI muon xem:";
 	cin>>top;
 	dslkk kpi; 
 	kpi.head=kpi.tail=createnode(this->head->data); 
@@ -250,6 +253,7 @@ void dslkk::topkpi(){
 			if(j==kpi.tail) {kpi.addAfter(i->data,j); break;}
 		}
 	}
+	cout<<"\nCac nhan vien co KPI top "<<top<<":"<<endl;
 	if (top>=kpi.size) top=kpi.size;
 	else{
 		node *x=kpi.head; int dem=1;
@@ -262,8 +266,7 @@ void dslkk::topkpi(){
 			x=x->next;
 		}
 	}
-	cout<<"\nTop hang:"<<top<<endl;
-	kpi.printt(top);
+	kpi.printt(top);	
 }
 void dslkk::print(){
 	if(head==NULL)
@@ -273,7 +276,7 @@ void dslkk::print(){
 	}
 	else{
 		for(node *i=head; i!=NULL; i=i->next)
-		cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN ""\t"<<i->data.MSNV<<"\t"<<"SAN PHAM\t"<<i->data.loaiSP<<"\t"<<"\tKPI"<<i->data.KPI<<"\t"<<"LUONG \t"<<i->data.total<<endl;
+		cout<<"TEN:\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN:"<<i->data.MSNV<<"\t"<<"SAN PHAM:\t"<<i->data.loaiSP<<"KPI: "<<i->data.KPI<<"\t"<<"LUONG: \t"<<i->data.total<<endl;
 	}
 }
 void dslkk::timten(){
@@ -305,7 +308,7 @@ void dslkk::timms(){
 	for (node* i=head;i!=NULL;i=i->next){
 	if(strcmp(i->data.MSNV,b)==0){
 		dem=1;
-		cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN ""\t"<<i->data.MSNV<<"\t"<<"SAN PHAM\t"<<i->data.loaiSP<<"\t"<<"\tKPI"<<i->data.KPI<<"\t"<<"LUONG \t"<<i->data.total<<endl;
+		cout<<"TEN\t"<<i->data.fullName<<"\t"<<"MA SO NHAN VIEN \t"<<i->data.MSNV<<"\tSAN PHAM\t"<<i->data.loaiSP<<"\tKPI"<<i->data.KPI<<"\tLUONG \t"<<i->data.total<<endl;
    }
 }
    if(dem==0) cout<<"Khong co nguoi lam san pham do"<<endl;
@@ -328,7 +331,7 @@ int main() {
 
 	int key;
 	    while(true) {
-	        cout << "            CHUONG TRINH QUAN LY NHAN VIEN \n";
+	        cout <<endl<<"            CHUONG TRINH QUAN LY NHAN VIEN \n";
 	        cout << "*************************MENU**************************\n";
 	        cout << "**  1. Hien thi danh sach nhan vien                  **\n";
 	        cout << "**  2. Tim NV lam san pham                           **\n";
@@ -360,7 +363,7 @@ int main() {
 					int k;
 					cout << "*************************MENU**************************\n";
 	            	cout << "**  1. Tim thong tin nhan vien theo ten              **\n";
-	                cout << "**  2. Tin thong tin nhan vien theo MS               **\n";
+	                cout << "**  2. Tin thonh tin nhan vien theo MS               **\n";
 	                cout << "*******************************************************\n";
 	                cout << "Nhap tuy chon: ";
 	                cin >> k;
