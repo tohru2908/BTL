@@ -360,7 +360,7 @@ int main() {
 					int k;
 					cout << "*************************MENU**************************\n";
 	            	cout << "**  1. Tim thong tin nhan vien theo ten              **\n";
-	                cout << "**  2. Tin thonh tin nhan vien theo MS               **\n";
+	                cout << "**  2. Tin thong tin nhan vien theo MS               **\n";
 	                cout << "*******************************************************\n";
 	                cout << "Nhap tuy chon: ";
 	                cin >> k;
