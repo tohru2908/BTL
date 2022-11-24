@@ -266,7 +266,8 @@ void dslkk::topkpi(){
 			x=x->next;
 		}
 	}
-	kpi.printt(top);	
+	kpi.printt(top);
+	kpi.xoadanhsach();	
 }
 void dslkk::print(){
 	if(head==NULL)
