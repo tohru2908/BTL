@@ -24,10 +24,11 @@ struct dslkk{
 	int size=0;
 	dslkk();
 	node *createnode(NV x);
-	void addlast(NV x);
 	bool duyetMSNV(NV x);
+	void addlast(NV x);
 	void addNewStaff(NV x);
 	void insert(NV x);
+	void luongkhoang();
 	
 	void removefirst();
 	void removelast();
@@ -90,8 +91,12 @@ void dslkk::insert(NV x){
 	gets(x.fullName);
 	cout<<"Loai SP: ";
 	cin>>x.loaiSP;
-	cout<<"Luong theo hop dong: ";
+	cout<<"Luong theo hop dong (>0): ";
 	cin>>x.LHD;
+	while(x.LHD<=0){
+		cout<<"Moi nhap lai luong theo hop dong (>0): ";
+		cin>>x.LHD;
+	}
 	cout<<"KPI: ";
 	cin>>x.KPI;
 	x.LCD=x.LHD*0.25;
@@ -306,20 +311,35 @@ void dslkk::timms(){
    if(dem==0) cout<<"Khong co nguoi lam san pham do"<<endl;
    
 }
+void dslkk::addlast(NV x){
+	node *p=createnode(x);
+	if (head==NULL) head=tail=p;
+	else{
+		tail->next=p;
+		p->prev=tail;
+		tail=p;	
+	}
+	size++;
+}
+void dslkk::luongkhoang(){
+	int khoangdau;
+	int khoangcuoi;
+	cout<<"\nmoi nhap khoang dau cua luong ban muon loc: ";
+	cin>>khoangdau;
+	cout<<"\nmoi nhap khoang cuoi cua luong ban muon loc: ";
+	cin>>khoangcuoi;
+	dslkk total;
+	for(node *i=this->head; i!=NULL; i=i->next){
+		if(i->data.total>=khoangdau&&i->data.total<=khoangcuoi){
+			total.addlast(i->data);
+		}
+	}
+	total.print();
+}
 int main() {
 	dslkk l;
 	NV NV1;
 	int n;
-	cout<<"NHAP SO NHAN VIEN CAN NHAP "<<endl;
-	cin>>n;
-	
-	while(n<=0){
-		cout<<"Moi nhap lai N(N>0): ";
-		cin>>n;}
-	for (int i=0;i<n;i++){
-		l.insert(NV1);
-		cout<<"Nhap thong tin thanh cong\n";
-		}
 
 	int key;
 	    while(true) {
@@ -333,6 +353,7 @@ int main() {
 	        cout << "**  5. Xoa thong tin nhan vien                       **\n";
 	        cout << "**  6. Tim top KPI                                   **\n";
 	        cout << "**  7. Xoa danh sach                                 **\n";
+	        cout << "**  8. Tim luong trong khoang                        **\n";
 	        cout << "**  0. Thoat                                         **\n";
 	        cout << "*******************************************************\n";
 	        cout << "Nhap tuy chon: ";
@@ -415,6 +436,9 @@ int main() {
 					l.xoadanhsach();
 				    cout<<"Ban da xoa toan bo danh sach nhan vien"<<endl;
 				    break;
+				case 8:
+					l.luongkhoang();
+					break;
 				}
 		}
 }
