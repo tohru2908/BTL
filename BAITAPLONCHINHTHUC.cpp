@@ -26,23 +26,26 @@ struct dslkk{
 	node *createnode(NV x);
 	bool duyetMSNV(NV x);
 	void addlast(NV x);
+	void addBefore(NV p, node *y);
+	void addAfter(NV p, node *y);
+	char takename[1000];
+	void getName(NV x);
 	void addNewStaff(NV x);
 	void insert(NV x);
-	void luongkhoang();
+
 	
 	void removefirst();
 	void removelast();
 	void removebymsnv(char pos[]);
-	
 	void xoadanhsach();
+	
 	void timsp(int x);
 	void timten();
 	void timms();
-	void addBefore(NV p, node *y);
-	void addAfter(NV p, node *y);
+	void luongkhoang();
 	void topkpi();
-	char takename[1000];
-	void getName(NV x);
+	void topluong();
+
 	void printt(int sl);
 	void print();
 };
@@ -229,7 +232,7 @@ void dslkk::addAfter(NV p, node *y){
 void dslkk::printt(int sl){
 	int dem;
 	for(node *i=head; dem<sl; i=i->next){
-		cout<<i->data.fullName<<"\tMSNV:"<<i->data.MSNV<<"\tKPI:"<<i->data.KPI<<endl;
+		cout<<i->data.fullName<<"\tMSNV:"<<i->data.MSNV<<"\tKPI:"<<i->data.KPI<<"\t\tLuong:\t"<<i->data.total<<endl;
 		dem++;
 	}
 }
@@ -264,6 +267,38 @@ void dslkk::topkpi(){
 	}
 	kpi.printt(top);
 	kpi.xoadanhsach();	
+}
+void dslkk::topluong(){
+	int top;
+	cout<<"Moi nhap top luong muon xem:";
+	cin>>top;
+	dslkk toplg; 
+	toplg.head=toplg.tail=createnode(this->head->data); 
+	toplg.size=1;
+	for(node *i=this->head->next; i!=NULL; i=i->next){ 
+		for(node *j=toplg.head; j!=NULL; j=j->next){
+			if(i->data.total>=j->data.total) 
+			{	toplg.addBefore(i->data,j);
+				break;
+			}
+			if(j==toplg.tail) {toplg.addAfter(i->data,j); break;}
+		}
+	}
+	cout<<"\nCac nhan vien co luong top "<<top<<":"<<endl;
+	if (top>=toplg.size) top=toplg.size;
+	else{
+		node *x=toplg.head; int dem=1;
+		while(dem<top){
+			x=x->next;
+			dem++;
+		}
+		while(x->data.total==x->next->data.total){
+			top++;
+			x=x->next;
+		}
+	}
+	toplg.printt(top);
+	toplg.xoadanhsach();	
 }
 void dslkk::print(){
 	if(head==NULL)
@@ -339,7 +374,7 @@ void dslkk::luongkhoang(){
 int main() {
 	dslkk l;
 	NV NV1;
-	int n;
+	int n,b;
 
 	int key;
 	    while(true) {
@@ -347,13 +382,11 @@ int main() {
 	        cout <<endl<<"            CHUONG TRINH QUAN LY NHAN VIEN \n";
 	        cout << "*************************MENU**************************\n";
 	        cout << "**  1. Hien thi danh sach nhan vien                  **\n";
-	        cout << "**  2. Tim NV lam san pham                           **\n";
+	        cout << "**  2. Them nhan vien moi                            **\n";
 	        cout << "**  3. Tim thong tin nhan vien                       **\n";
-	        cout << "**  4. Them nhan vien moi                            **\n";
+	        cout << "**  4. Tim nhan vien trong top                       **\n";
 	        cout << "**  5. Xoa thong tin nhan vien                       **\n";
-	        cout << "**  6. Tim top KPI                                   **\n";
-	        cout << "**  7. Xoa danh sach                                 **\n";
-	        cout << "**  8. Tim luong trong khoang                        **\n";
+	        cout << "**  6. Xoa danh sach                                 **\n";
 	        cout << "**  0. Thoat                                         **\n";
 	        cout << "*******************************************************\n";
 	        cout << "Nhap tuy chon: ";
@@ -368,43 +401,61 @@ int main() {
 				    l.print();
 				    break;
 				case 2:
-					cout<<"Nhap loai san pham can tim nhan vien"<<endl;
-					int g;
-					cin>>g;
-					l.timsp(g);
+	            	cout<<"NHAP SO NV CAN THEM M: ";
+	                cin>>n;
+	            	while(n<0) {
+	            		cout<<"Moi nhap lai M(M>0): ";
+		                cin>>n;}
+		                
+				    for(int i=0;i<n;i++){
+	                	l.insert(NV1);
+	                    cout<<"Them thong tin thanh cong\n";
+	                    }      
 					break;
+				
 				case 3:
-					int k;
 					cout << "*************************MENU**************************\n";
 	            	cout << "**  1. Tim thong tin nhan vien theo ten              **\n";
-	                cout << "**  2. Tin thonh tin nhan vien theo MS               **\n";
+	                cout << "**  2. Tim thong tin nhan vien theo MS               **\n";
+	                cout << "**  3. Tim thong tin nhan vien lam loai san pham     **\n";
+	                cout << "**  4. Tim danh sach nhan vien trong khoang luong    **\n";
 	                cout << "*******************************************************\n";
 	                cout << "Nhap tuy chon: ";
-	                cin >> k;
-				    switch(k){
+	                cin >> b;
+				    switch(b){
 				    	case 1:
 				    		l.timten();
 				    		break;
 				    	case 2:
 				    		l.timms();
 				    		break;
+				    	case 3:
+				    		cout<<"Nhap loai san pham can tim nhan vien"<<endl;
+							cin>>b;
+							l.timsp(b);
+							break;
+						case 4:
+							l.luongkhoang();
+							break;
 					}
 					break;
 				case 4:
-					int m; NV NV1;
-	            	cout<<"NHAP SO NV CAN THEM M: ";
-	                cin>>m;
-	            	while(m<0) {
-	            		cout<<"Moi nhap lai M(M>0): ";
-		                cin>>m;}
-		                
-				    for(int i=0;i<m;i++){
-	                	l.insert(NV1);
-	                    cout<<"Them thong tin thanh cong\n";
-	                    }      
-					break;
+	            	cout << "*************************MENU**************************\n";
+	            	cout << "**     1. Tim top KPI                                **\n";
+	                cout << "**     2. Tim top luong                              **\n";
+	                cout << "*******************************************************\n";
+	                cout << "Nhap tuy chon: ";
+	                cin >> b;
+	                switch(b){
+	                	case 1:
+	                		l.topkpi();
+	                		break;
+	                	case 2:
+	                		l.topluong();
+	                		break;
+	                }
+	                break;
 				case 5:
-	            	int b;
 	            	cout << "*************************MENU**************************\n";
 	            	cout << "**  1. Xoa thong tin nhan vien o vi tri dau          **\n";
 	                cout << "**  2. Xoa thong tin nhan vien o vi tri cuoi         **\n";
@@ -412,33 +463,44 @@ int main() {
 	                cout << "*******************************************************\n";
 	                cout << "Nhap tuy chon: ";
 	                cin >> b;
+	                int sure;
+	                
 	                switch(b){
 	                	case 1:
-	                		l.removefirst();
-	                		cout<<"Xoa thanh cong\n";
+	                		cout<<"Ban co chac se xoa nhan vien nay?\n 1. Co \t2. Khong\n";
+	                		cin>>sure;
+	                		if(sure==1){
+		                		l.removefirst();
+		                		cout<<"Xoa thanh cong\n";
+		                	}
 	                		break;
 	                	case 2:
-	                		l.removelast();
-	                		cout<<"Xoa thanh cong\n";
+	                		cout<<"Ban co chac se xoa nhan vien nay?\n 1. Co \t2. Khong\n";
+	                		cin>>sure;
+	                		if(sure==1){
+		                		l.removelast();
+		                		cout<<"Xoa thanh cong\n";
+		                	}
 	                		break;
 	                	case 3:
 	                		cout<<"Nhap MSNV can xoa"<<endl;
 					        char h[100];
 					        cin>>h;
-					        l.removebymsnv(h);
+					        cout<<"Ban co chac se xoa nhan vien nay?\n 1. Co \t2. Khong\n";
+	                		cin>>sure;
+	                		if(sure==1)  l.removebymsnv(h);
 					        break;
 					    }
 					break;
+				
 				case 6:
-					l.topkpi();
-					break;
-				case 7:
-					l.xoadanhsach();
-				    cout<<"Ban da xoa toan bo danh sach nhan vien"<<endl;
+					cout<<"Ban co chac muon xoa toan bo danh sach?\n 1. Co \t2. Khong\n";
+	                cin>>sure;
+	                if(sure==1){
+						l.xoadanhsach();
+				    	cout<<"Ban da xoa toan bo danh sach nhan vien"<<endl;
+				    }
 				    break;
-				case 8:
-					l.luongkhoang();
-					break;
 				}
 		}
 }
