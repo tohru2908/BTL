@@ -4,6 +4,9 @@
 #include<math.h>
 #include<iostream>
 #include<stdbool.h>
+#include <Windows.h>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 typedef struct nhanvien{
 	char MSNV[100];
@@ -371,55 +374,93 @@ void dslkk::luongkhoang(){
 	}
 	total.print();
 }
+void SET_COLOR(int color)
+{
+	WORD wColor;
+     
+
+     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+     CONSOLE_SCREEN_BUFFER_INFO csbi;
+     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+     {
+          wColor = (csbi.wAttributes & 0xF0) + (color & 0x0F);
+          SetConsoleTextAttribute(hStdOut, wColor);
+     }
+}
 int main() {
 	dslkk l;
 	NV NV1;
 	int n,b;
+	
+	srand(time(NULL));
 
 	int key;
 	    while(true) {
 	    	fflush(stdin);fflush(stdin);
+	    	SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout <<endl<<"            CHUONG TRINH QUAN LY NHAN VIEN \n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "*************************MENU**************************\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "**  1. Hien thi danh sach nhan vien                  **\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "**  2. Them nhan vien moi                            **\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "**  3. Tim thong tin nhan vien                       **\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "**  4. Tim nhan vien trong top                       **\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "**  5. Xoa thong tin nhan vien                       **\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "**  6. Xoa danh sach                                 **\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "**  0. Thoat                                         **\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "*******************************************************\n";
+	        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        cout << "Nhap tuy chon: ";
 	        cin >> key;
 	        switch(key){
 			 	case 0:
+			 		SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	        	    cout << "\nBan da chon thoat chuong trinh!";
 	                
 	            return 0;	
 	            case 1: 
+	            SET_COLOR(rand() % (9 - 1 + 1) + 1);
 				    cout<<"Thong tin nhan vien "<<endl;
 				    l.print();
 				    break;
 				case 2:
+					SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	            	cout<<"NHAP SO NV CAN THEM M: ";
 	                cin>>n;
 	            	while(n<0) {
+	            		SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	            		cout<<"Moi nhap lai M(M>0): ";
 		                cin>>n;}
 		                
 				    for(int i=0;i<n;i++){
 	                	l.insert(NV1);
+	                	SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                    cout<<"Them thong tin thanh cong\n";
 	                    }      
 					break;
 				
 				case 3:
+					SET_COLOR(rand() % (9 - 1 + 1) + 1);
 					cout << "*************************MENU**************************\n";
+					SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	            	cout << "**  1. Tim thong tin nhan vien theo ten              **\n";
+	            	SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "**  2. Tim thong tin nhan vien theo MS               **\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "**  3. Tim thong tin nhan vien lam loai san pham     **\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "**  4. Tim danh sach nhan vien trong khoang luong    **\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "*******************************************************\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "Nhap tuy chon: ";
 	                cin >> b;
 				    switch(b){
@@ -430,6 +471,7 @@ int main() {
 				    		l.timms();
 				    		break;
 				    	case 3:
+				    		SET_COLOR(rand() % (9 - 1 + 1) + 1);
 				    		cout<<"Nhap loai san pham can tim nhan vien"<<endl;
 							cin>>b;
 							l.timsp(b);
@@ -440,10 +482,15 @@ int main() {
 					}
 					break;
 				case 4:
+					SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	            	cout << "*************************MENU**************************\n";
+	            	SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	            	cout << "**     1. Tim top KPI                                **\n";
+	            	SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "**     2. Tim top luong                              **\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "*******************************************************\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "Nhap tuy chon: ";
 	                cin >> b;
 	                switch(b){
@@ -456,36 +503,49 @@ int main() {
 	                }
 	                break;
 				case 5:
+					SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	            	cout << "*************************MENU**************************\n";
+	            	SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	            	cout << "**  1. Xoa thong tin nhan vien o vi tri dau          **\n";
+	            	SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "**  2. Xoa thong tin nhan vien o vi tri cuoi         **\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "**  3. Xoa thong tin nhan vien theo MSNV             **\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "*******************************************************\n";
+	                SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                cout << "Nhap tuy chon: ";
 	                cin >> b;
 	                int sure;
 	                
 	                switch(b){
 	                	case 1:
+	                		SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                		cout<<"Ban co chac se xoa nhan vien nay?\n 1. Co \t2. Khong\n";
+	                		
 	                		cin>>sure;
 	                		if(sure==1){
 		                		l.removefirst();
+		                		SET_COLOR(rand() % (9 - 1 + 1) + 1);
 		                		cout<<"Xoa thanh cong\n";
 		                	}
 	                		break;
 	                	case 2:
+	                		SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                		cout<<"Ban co chac se xoa nhan vien nay?\n 1. Co \t2. Khong\n";
 	                		cin>>sure;
 	                		if(sure==1){
 		                		l.removelast();
+		                		SET_COLOR(rand() % (9 - 1 + 1) + 1);
 		                		cout<<"Xoa thanh cong\n";
 		                	}
 	                		break;
 	                	case 3:
+	                		SET_COLOR(rand() % (9 - 1 + 1) + 1);
 	                		cout<<"Nhap MSNV can xoa"<<endl;
 					        char h[100];
 					        cin>>h;
+					        SET_COLOR(rand() % (9 - 1 + 1) + 1);
 					        cout<<"Ban co chac se xoa nhan vien nay?\n 1. Co \t2. Khong\n";
 	                		cin>>sure;
 	                		if(sure==1)  l.removebymsnv(h);
@@ -494,10 +554,12 @@ int main() {
 					break;
 				
 				case 6:
+					SET_COLOR(rand() % (9 - 1 + 1) + 1);
 					cout<<"Ban co chac muon xoa toan bo danh sach?\n 1. Co \t2. Khong\n";
 	                cin>>sure;
 	                if(sure==1){
 						l.xoadanhsach();
+						SET_COLOR(rand() % (9 - 1 + 1) + 1);
 				    	cout<<"Ban da xoa toan bo danh sach nhan vien"<<endl;
 				    }
 				    break;
